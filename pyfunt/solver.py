@@ -326,28 +326,28 @@ class Solver(object):
     def export_model(self, path):
         if not os.path.exists(path):
             os.makedirs(path)
-        np.save('%smodel' % path, self.best_params)
+        np.save('%s/model' % path, self.best_params)
 
     def export_histories(self, path):
         if not os.path.exists(path):
             os.makedirs(path)
         i = np.arange(len(self.loss_history)) + 1
-        z = np.array(zip(i, i*self.batch_size, self.loss_history))
-        np.savetxt(path + 'loss_history.csv', z, delimiter=',', fmt=[
+        z = np.column_stack((i, i*self.batch_size, self.loss_history))
+        np.savetxt(path + '/loss_history.csv', z, delimiter=',', fmt=[
                    '%d', '%d', '%f'], header='iteration, n_images, loss')
 
         i = np.arange(len(self.train_acc_history), dtype=np.int)
 
-        z = np.array(zip(i, self.train_acc_history))
-        np.savetxt(path + 'train_acc_history.csv', z, delimiter=',', fmt=[
+        z = np.column_stack((i, self.train_acc_history))
+        np.savetxt(path + '/train_acc_history.csv', z, delimiter=',', fmt=[
             '%d', '%f'], header='epoch, train_acc')
 
-        z = np.array(zip(i, self.val_acc_history))
-        np.savetxt(path + 'val_acc_history.csv', z, delimiter=',', fmt=[
+        z = np.column_stack((i, self.val_acc_history))
+        np.savetxt(path + '/val_acc_history.csv', z, delimiter=',', fmt=[
             '%d', '%f'], header='epoch, val_acc')
-        np.save(path + 'loss', self.loss_history)
-        np.save(path + 'train_acc_history', self.train_acc_history)
-        np.save(path + 'val_acc_history', self.val_acc_history)
+        np.save(path + '/loss', self.loss_history)
+        np.save(path + '/train_acc_history', self.train_acc_history)
+        np.save(path + '/val_acc_history', self.val_acc_history)
 
     def _loss_helper(self, args):
         x, y = args
@@ -497,7 +497,7 @@ class Solver(object):
                 # self.best_params[k] = v.copy()
 
         loss = '%.4f' % self.loss_history[it-1] if it > 0 else '-'
-        print('%s - iteration %d: loss:%s, train_acc:%.4f, val_acc: %.4f, best_val_acc: %.4f;\n' % (
+        print('%s - iteration %d: loss: %s, train_acc: %.4f, val_acc: %.4f, best_val_acc: %.4f;\n' % (
             # print('%s - iteration %d: loss:%s, train_acc: %.4f, val_acc: %.4f, best_val_acc: %.4f;\n' % ()
             # str(datetime.now()), it, loss, val_acc, self.best_val_acc)
             str(datetime.now()), it, loss, train_acc, val_acc, self.best_val_acc))
@@ -509,7 +509,7 @@ class Solver(object):
         if not self.silent_train:
             d = 'Epoch %d / %d' % (
                 self.epoch + 1, self.num_epochs)
-            self.pbar = tqdm(total=total, desc=d, unit='s.')
+            self.pbar = tqdm(total=total, desc=d, unit='im.')
 
     def _update_bar(self, amount):
         if not self.silent_train:
@@ -531,7 +531,7 @@ class Solver(object):
         self._check_and_swap()
         self._new_training_bar(images_per_epochs)
         # self.params, self.grad_params = self.model.get_parameters()
-        self.best_params = np.copy(self.params)
+        self.best_params = np.copy(np.array(self.params, dtype="object"))
         for it in range(num_iterations):
 
             loss, _ = self._step()

@@ -4,6 +4,7 @@
 from .module import Module
 import numpy as np
 try:
+    import pyximport; pyximport.install(inplace=True, language_level=3)
     from .im2col_cyt import col2im_cython
 except ImportError:
     print('Installation broken, please reinstall PyFunt')

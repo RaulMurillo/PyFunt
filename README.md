@@ -6,7 +6,7 @@ Pythonic Deep Learning Framework (WIP and CPU only) inspired by [Torch](http://t
 
 ## Requirements
 
-- [Python 2.7](https://www.python.org/)
+- [Python 3](https://www.python.org/)
 - [Cython](cython.org/)
 - [numpy](www.numpy.org/)
 - [torchfile](https://github.com/bshillingford/python-torchfile/)

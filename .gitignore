@@ -4,6 +4,8 @@ CIFAR_DATASET_PATH
 *.ipynb
 test.py
 venv/
+data/
+Experiments/
 
 # Editor temporary/working/backup files #
 #########################################
