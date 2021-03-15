@@ -1,4 +1,4 @@
-from container import Container
+from .container import Container
 import numpy as np
 
 
@@ -12,7 +12,7 @@ class ConcatTable(Container):
 
     def update_output(self, x):
         self.output = []
-        for i in xrange(len(self.modules)):
+        for i in range(len(self.modules)):
             current_output = self.rethrow_errors(
                 self.modules[i], i, 'update_output', x)
             self.output.append(current_output)

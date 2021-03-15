@@ -19,7 +19,7 @@ def residual_layer(n_channels, n_out_channels=None, stride=None):
     if stride > 1:
         shortcut = Sequential()
         shortcut.add(SpatialAveragePooling(2, 2, stride, stride))
-        shortcut.add(Padding(1, (n_out_channels - n_channels)/2, 3))
+        shortcut.add(Padding(1, (n_out_channels - n_channels)//2, 3))
     else:
         shortcut = Identity()
 
@@ -166,15 +166,15 @@ def resnet(n_size, num_starting_filters, reg):
     add(SpatialBatchNormalization(nfs))
     add(ReLU())
 
-    for i in xrange(1, n_size):
+    for i in range(1, n_size):
         add(residual_layer(nfs))
     add(residual_layer(nfs, 2*nfs, 2))
 
-    for i in xrange(1, n_size-1):
+    for i in range(1, n_size-1):
         add(residual_layer(2*nfs))
     add(residual_layer(2*nfs, 4*nfs, 2))
 
-    for i in xrange(1, n_size-1):
+    for i in range(1, n_size-1):
         add(residual_layer(4*nfs))
 
     add(SpatialAveragePooling(8, 8))

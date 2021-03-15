@@ -1,7 +1,7 @@
-from module import Module
+from .module import Module
 import numpy as np
 try:
-    from im2col_cyt import im2col_cython, col2im_cython
+    from .im2col_cyt import im2col_cython, col2im_cython
 except ImportError:
     print('Installation broken, please reinstall PyFunt')
 
@@ -46,8 +46,8 @@ class SpatialMaxPooling(Module):
         assert (H - pool_height) % stride == 0, 'Invalid height'
         assert (W - pool_width) % stride == 0, 'Invalid width'
 
-        out_height = (H - pool_height) / stride + 1
-        out_width = (W - pool_width) / stride + 1
+        out_height = (H - pool_height) // stride + 1
+        out_width = (W - pool_width) // stride + 1
 
         x_split = x.reshape(N * C, 1, H, W)
         x_cols = im2col_cython(

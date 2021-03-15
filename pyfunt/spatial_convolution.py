@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from module import Module
+from .module import Module
 import numpy as np
 try:
-    from im2col_cyt import col2im_cython
+    from .im2col_cyt import col2im_cython
 except ImportError:
     print('Installation broken, please reinstall PyFunt')
 
@@ -77,8 +77,8 @@ class SpatialConvolution(Module):
 
         # H += 2 * pad
         # W += 2 * pad
-        out_h = (H - HH) / stride + 1
-        out_w = (W - WW) / stride + 1
+        out_h = (H - HH) // stride + 1
+        out_w = (W - WW) // stride + 1
 
         # Perform an im2col operation by picking clever strides
         shape = (C, HH, WW, N, out_h, out_w)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 import numpy as np
-from batch_normalization import BatchNormalization
+from .batch_normalization import BatchNormalization
 
 
 class SpatialBatchNormalization(BatchNormalization):

@@ -1,4 +1,4 @@
-from container import Container
+from .container import Container
 import numpy as np
 
 
@@ -40,7 +40,7 @@ class Sequential(Container):
 
     def update_output(self, x):
         current_output = x
-        for i in xrange(len(self.modules)):
+        for i in range(len(self.modules)):
             current_output = self.rethrow_errors(self.modules[i], i, 'update_output', current_output)
         self.output = current_output
         return self.output

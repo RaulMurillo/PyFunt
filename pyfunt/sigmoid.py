@@ -1,4 +1,4 @@
-from module import Module
+from .module import Module
 import numpy as np
 
 
@@ -8,7 +8,7 @@ class Sigmoid(Module):
         super(Sigmoid, self).__init__()
 
     def update_output(self, x):
-        self.output = 1 / (1 + np.exp(-x))
+        self.output = 1. / (1 + np.exp(-x))
         return self.output
 
     def update_grad_input(self, x, grad_output):

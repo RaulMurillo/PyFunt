@@ -4,7 +4,6 @@
 import abc
 import numpy as np
 from copy import deepcopy
-from types import DictType
 
 
 class Module(object):
@@ -299,8 +298,8 @@ class Module(object):
             containers[len(containers)] = container
         # Recurse on nodes with 'modules'
         if self.modules is not None:
-            if type(self.modules) is DictType:
-                for i in xrange(len(self.modules)):
+            if type(self.modules) == dict:
+                for i in range(len(self.modules)):
                     child = self.modules[i]
                     cur_nodes, cur_containers = child.find_modules(
                         type_c, self)
@@ -311,7 +310,7 @@ class Module(object):
 
                     # add the list items from our child to our list (ie return a
                     # flattened table of the return nodes).
-                    for j in xrange(len(cur_nodes)):
+                    for j in range(len(cur_nodes)):
                         nodes[len(cur_nodes)+1] = cur_nodes[j]
                         containers[len(containers)+1] = cur_containers[j]
 
@@ -319,15 +318,15 @@ class Module(object):
 
     def list_modules(self):
         def tinsert(to, _from):
-            if type(_from) == DictType:
-                for i in xrange(len(_from)):
+            if type(_from) == dict:
+                for i in range(len(_from)):
                     tinsert(to, _from[i])
             else:
                 to.update(_from)
 
         modules = self
         if self.modules:
-            for i in xrange(len(self.modules)):
+            for i in range(len(self.modules)):
                 modulas = self.modules[i].list_modules()
                 if modulas:
                     tinsert(modules, modulas)

@@ -1,4 +1,4 @@
-from threshold import Threshold
+from .threshold import Threshold
 
 
 class ReLU(Threshold):

@@ -1,4 +1,4 @@
-from module import Module
+from .module import Module
 
 
 class View(Module):
@@ -35,7 +35,7 @@ class View(Module):
 #             self.size = None
 #         self.num_elements = 1
 #         inferdim = False
-#         for i in xrange(self.size):
+#         for i in range(self.size):
 #             szi = self.size[i]
 #             if szi >= 0:
 #                 self.num_elements *= self.size[i]

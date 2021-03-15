@@ -1,4 +1,4 @@
-from criterion import Criterion
+from .criterion import Criterion
 import numpy as np
 
 

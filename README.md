@@ -64,15 +64,15 @@ Parametric models can be built easily thanks to the module structure:
 	    add(SpatialBatchNormalization(nfs))
 	    add(ReLU())
 
-	    for i in xrange(1, n_size):
+	    for i in range(1, n_size):
 		add(residual_layer(nfs))
 	    add(residual_layer(nfs, 2*nfs, 2))
 
-	    for i in xrange(1, n_size-1):
+	    for i in range(1, n_size-1):
 		add(residual_layer(2*nfs))
 	    add(residual_layer(2*nfs, 4*nfs, 2))
 
-	    for i in xrange(1, n_size-1):
+	    for i in range(1, n_size-1):
 		add(residual_layer(4*nfs))
 
 	    add(SpatialAveragePooling(8, 8))

@@ -205,7 +205,7 @@ def setup_package():
 
         metadata['configuration'] = configuration
 
-    print 'setup complete'
+    print('setup complete')
     setup(**metadata)
 
 if __name__ == '__main__':

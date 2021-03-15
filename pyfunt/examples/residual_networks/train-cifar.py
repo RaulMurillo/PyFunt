@@ -7,7 +7,7 @@ import numpy as np
 from pydatset.cifar10 import get_CIFAR10_data
 from pydatset.data_augmentation import (random_flips,
                                         random_crops)
-from resnet import resnet
+from .resnet import resnet
 from pyfunt.solver import Solver as Solver
 
 import inspect

@@ -223,3 +223,13 @@ def adam(x, dx, config=None):
     config['t'] = t
 
     return next_x, config
+
+
+optim_dict = {
+  'sgd_th': sgd_th,
+  'nesterov': nesterov,
+  'sgd': sgd,
+  'sgd_momentum': sgd_momentum,
+  'rmsprop': rmsprop,
+  'adam': adam,
+}

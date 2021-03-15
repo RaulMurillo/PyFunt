@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
-from module import Module
+from .module import Module
 import numpy as np
 try:
-    from im2col_cyt import im2col_cython, col2im_cython
+    from .im2col_cyt import im2col_cython, col2im_cython
 except ImportError:
     print('Installation broken, please reinstall PyFunt')
 
@@ -52,8 +52,8 @@ class SpatialUpSamplingNearest(Module):
         pool_height = pool_width = self.scale_factor
         stride = self.scale_factor
 
-        out_height = (H - pool_height) / stride + 1
-        out_width = (W - pool_width) / stride + 1
+        out_height = (H - pool_height) // stride + 1
+        out_width = (W - pool_width) // stride + 1
 
         grad_output_split = grad_output.reshape(N * C, 1, H, W)
         grad_output_cols = im2col_cython(

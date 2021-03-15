@@ -1,6 +1,5 @@
 from __future__ import print_function
-from module import Module
-from types import DictType
+from .module import Module
 import sys
 import traceback
 import numpy as np
@@ -64,14 +63,14 @@ class Container(Module):
     def parameters(self):
         def tinsert(to, _from):
             if isinstance(_from, list):
-                for i in xrange(len(_from)):
+                for i in range(len(_from)):
                     tinsert(to, _from[i])
             else:
                 to.append(_from)
 
         w = []
         gw = []
-        for i in xrange(len(self.modules)):
+        for i in range(len(self.modules)):
 
             res = self.modules[i].parameters()
             if res:

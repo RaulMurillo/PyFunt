@@ -1,4 +1,4 @@
-from module import Module
+from .module import Module
 import numpy as np
 
 
@@ -14,7 +14,7 @@ class CAddTable(Module):
 
     def update_grad_input(self, x, grad_output):
         self.grad_input = np.zeros_like(x)
-        for i in xrange(len(x)):
+        for i in range(len(x)):
             self.grad_input[i] = np.copy(grad_output)
         return self.grad_input
 

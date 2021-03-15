@@ -1,11 +1,11 @@
 from __future__ import print_function
 import numpy as np
 from datetime import datetime
-import optim
+from .optim import optim_dict
 import os
 import multiprocessing as mp
 import signal
-from copy_reg import pickle
+from copyreg import pickle
 from types import MethodType
 import sys
 from tqdm import tqdm
@@ -219,9 +219,9 @@ class Solver(object):
 
         # Make sure the update rule exists, then replace the string
         # name with the actual function
-        if not hasattr(optim, self.update_rule):
+        if self.update_rule not in optim_dict:
             raise ValueError('Invalid update_rule "%s"' % self.update_rule)
-        self.update_rule = getattr(optim, self.update_rule)
+        self.update_rule = optim_dict[self.update_rule]
         self._reset()
         if load_dir:
             self.load_dir = load_dir
@@ -263,7 +263,7 @@ class Solver(object):
         self.params, self.grad_params = self.model.get_parameters()
         # self.weights, _ = self.model.get_parameters()
         for p in range(len(self.params)):
-            d = {k: v for k, v in self.optim_config.iteritems()}
+            d = {k: v for k, v in self.optim_config.items()}
             self.optim_configs[p] = d
 
         self.multiprocessing = bool(self.num_processes-1)
@@ -296,7 +296,7 @@ class Solver(object):
             self.train_acc_history = cp['train_acc_history']
             self.model = cp['model']
 
-        except Exception, e:
+        except Exception as e:
             raise e
 
     def make_check_point(self):
@@ -393,7 +393,7 @@ class Solver(object):
                     losses[i] = l
                     gradses.append(g)
                     i += 1
-            except Exception, e:
+            except Exception as e:
                 self.pool.terminate()
                 self.pool.join()
                 raise e
@@ -426,13 +426,13 @@ class Solver(object):
         '''
         N = X.shape[0]
         batch_size = self.batch_size
-        num_batches = N / batch_size
+        num_batches = N // batch_size
         if N % batch_size != 0:
             num_batches += 1
         y_pred1 = []
         y_pred5 = []
         self.pbar = tqdm(total=N, desc='Accuracy Check', unit='im')
-        for i in xrange(num_batches):
+        for i in range(num_batches):
             start = i * batch_size
             end = (i + 1) * batch_size
 
@@ -450,7 +450,7 @@ class Solver(object):
                     y_pred1.append(np.argmax(scores, axis=1))
                     y_pred5.append(scores.argsort()[-5:][::-1])
 
-                except Exception, e:
+                except Exception as e:
                     self.pool.terminate()
                     self.pool.join()
                     raise e
@@ -493,7 +493,7 @@ class Solver(object):
             # self.best_params = {}
             for p, w in enumerate(self.params):
                 self.best_params[p] = w.copy()
-            # for k, v in self.model.params.iteritems():
+            # for k, v in self.model.params.items():
                 # self.best_params[k] = v.copy()
 
         loss = '%.4f' % self.loss_history[it-1] if it > 0 else '-'
@@ -532,14 +532,14 @@ class Solver(object):
         self._new_training_bar(images_per_epochs)
         # self.params, self.grad_params = self.model.get_parameters()
         self.best_params = np.copy(self.params)
-        for it in xrange(num_iterations):
+        for it in range(num_iterations):
 
             loss, _ = self._step()
 
             # self.loss_history.append(loss)
 
             # Perform a parameter update
-            # self.model.params.iteritems():
+            # self.model.params.items():
             for p, w in enumerate(self.params):
                 dw = self.grad_params[p]
                 config = self.optim_configs[p]
