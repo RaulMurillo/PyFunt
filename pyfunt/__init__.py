@@ -1,3 +1,4 @@
+from .adaptive_average_pooling import AdaptiveAveragePooling
 from .affine import Affine
 from .batch_normalization import BatchNormalization
 from .c_add_table import CAddTable
